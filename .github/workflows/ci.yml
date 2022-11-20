@@ -12,7 +12,7 @@ jobs:
           - 3.1
           - head
     env:
-      BUNDLE_GEMFILE: Gemfile:
+      BUNDLE_GEMFILE: Gemfile
     name: "RSpec tests: Ruby ${{ matrix.ruby }}"
     steps:
       - uses: actions/checkout@8230315d06ad95c617244d2f265d237a1682d445
