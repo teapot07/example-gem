@@ -1,0 +1,37 @@
+name: CI
+
+on: [push]
+
+jobs:
+  rspec:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        ruby:
+          - 2.7
+          - 3.1
+          - head
+    env:
+      BUNDLE_GEMFILE: Gemfile:
+    name: "RSpec tests: Ruby ${{ matrix.ruby }}"
+    steps:
+      - uses: actions/checkout@8230315d06ad95c617244d2f265d237a1682d445
+      - name: Set up Ruby ${{ matrix.ruby }}
+        uses: ruby/setup-ruby@eae47962baca661befdfd24e4d6c34ade04858f7
+        with:
+          bundler-cache: true
+          ruby-version: ${{ matrix.rby }}
+      - name: Run tests
+        run: bundle exec rspec
+  rubocop:
+    runs-on: ubuntu-latest
+    name: Rubocop
+    steps:
+      - uses: actions/checkout@8230315d06ad95c617244d2f265d237a1682d445
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@eae47962baca661befdfd24e4d6c34ade04858f7
+        with:
+          bundler-cache: true
+          ruby-version: head
+      - name: Run style checks
+        run: bundle exec rubocop
